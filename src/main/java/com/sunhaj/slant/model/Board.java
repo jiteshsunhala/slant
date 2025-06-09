@@ -7,22 +7,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Board {
-    private ArrayList<ArrayList<Cell>> cells;
+    private ArrayList<ArrayList<CellValue>> cells;
     private int r, c;
 
-    private Map<String, Corner> corners;
+    private final Map<String, Integer> corners;
 
     public Board(int r, int c, List<Corner> corners) {
         this.r = r;
         this.c = c;
         this.corners = corners.stream()
-                .collect(Collectors.toMap(this::getKey, Function.identity()));
+                .collect(Collectors.toMap(this::getKey, Corner::value));
         this.cells = new ArrayList<>();
 
         for(int i=0;i<r;i++) {
-            ArrayList<Cell> rowCells = new ArrayList<>();
+            ArrayList<CellValue> rowCells = new ArrayList<>();
             for(int j=0;j<c;j++) {
-                rowCells.add(getCell(i,j));
+                rowCells.add(CellValue.none);
             }
             cells.add(rowCells);
         }
@@ -36,24 +36,30 @@ public class Board {
         return String.join("_", String.valueOf(x), String.valueOf(y));
     }
 
-    private Cell getCell(int x, int y) {
-        // corner positions for cell: (0, 0)
-        // (0, 0), (0, 1), (1, 0), (1, 1)
-
-        // corner positions for cell: (0, 4)
-        // (0, 4), (0, 5), (1, 4), (1, 5)
-
-        // corner positions for cell: (x, y)
-        // (x, y), (x, y+1), (x+1, y), (x+1, y+1)
-
-        Corner topLeft = corners.getOrDefault(getKey(x, y), new Corner(x, y));
-        Corner topRight = corners.getOrDefault(getKey(x, y+1), new Corner(x, y+1));
-        Corner bottomLeft = corners.getOrDefault(getKey(x+1, y), new Corner(x+1, y));
-        Corner bottomRight = corners.getOrDefault(getKey(x+1, y+1), new Corner(x+1, y+1));
-
-        return new Cell(topLeft, topRight, bottomLeft, bottomRight);
+    public void print() {
+        for(int i=0;i<=r;i++) {
+            for(int j=0;j<=c;j++) {
+                Integer corner = corners.get(getKey(i, j));
+                String cornerValue = corner == null ? "+" : String.valueOf(corner);
+                if(j != c) {
+                    cornerValue += "-";
+                }
+                System.out.print(cornerValue);
+            }
+            if(i != r) {
+                System.out.println();
+                for (int l = 0; l <= c; l++) {
+                    if(l != c) {
+                        System.out.print("|" + cells.get(i).get(l).getValue());
+                    } else {
+                        System.out.print("|");
+                    }
+                }
+                System.out.println();
+            }
+        }
     }
 
-    public void print() {
+    public void solvePairOfOnes() {
     }
 }

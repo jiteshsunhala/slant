@@ -1,11 +1,12 @@
 package com.sunhaj.slant.simulator;
 
 import com.sunhaj.slant.model.Board;
+import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.solver.SlantSolver;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
-import java.util.Scanner;
+import java.util.List;
 
 @Service
 public class SlantStarter implements CommandLineRunner {
@@ -17,23 +18,29 @@ public class SlantStarter implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        if(args.length != 1) {
-            throw new RuntimeException("Only one argument should be provided");
-        }
-
-        Board board = getBoard(args[0]);
+    public void run(String... args) {
+        Board board = getBoard();
         slantSolver.solve(board);
 
         board.print();
     }
 
-    private Board getBoard(String inputFile) {
-        Scanner scanner = new Scanner(System.in);
-
-        int r = scanner.nextInt();
-        int c = scanner.nextInt();
-
-
+    private Board getBoard() {
+        return new Board(5, 5, List.of(
+                new Corner(1, 1, 1),
+                new Corner(1, 2, 1),
+                new Corner(1, 3, 2),
+                new Corner(1, 5, 1),
+                new Corner(2, 0, 1),
+                new Corner(2, 1, 2),
+                new Corner(2, 4, 1),
+                new Corner(2, 5, 1),
+                new Corner(3, 2, 1),
+                new Corner(3, 5, 0),
+                new Corner(4, 1, 2),
+                new Corner(4, 2, 1),
+                new Corner(4, 3, 2),
+                new Corner(4, 4, 1),
+                new Corner(5, 4, 1)));
     }
 }
