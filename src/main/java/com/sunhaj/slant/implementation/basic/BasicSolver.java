@@ -14,17 +14,15 @@ import java.util.List;
 public class BasicSolver implements SlantSolver {
 
     private final OnePairStep onePairStep;
-    private final ThreePairStep threePairStep;
 
     @Autowired
-    public BasicSolver(OnePairStep onePairStep, ThreePairStep threePairStep) {
+    public BasicSolver(OnePairStep onePairStep) {
         this.onePairStep = onePairStep;
-        this.threePairStep = threePairStep;
     }
 
     @Override
     public void solve(Board board) {
-        Step nonIterativeSteps = Step.link(onePairStep, List.of(threePairStep));
+        Step nonIterativeSteps = Step.link(onePairStep, List.of());
         nonIterativeSteps.execute(board);
     }
 }

@@ -1,7 +1,10 @@
 package com.sunhaj.slant.model;
 
+import lombok.Getter;
+
+@Getter
 public enum CellValue {
-    left("\\"), right("/"), none(" ");
+    left("\\"), right("/"), none(" "), invalid("~");
 
     private final String value;
 
@@ -9,7 +12,4 @@ public enum CellValue {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

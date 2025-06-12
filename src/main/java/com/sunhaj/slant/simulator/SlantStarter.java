@@ -20,27 +20,26 @@ public class SlantStarter implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Board board = getBoard();
+        board.print();
         slantSolver.solve(board);
-
         board.print();
     }
 
     private Board getBoard() {
         return new Board(5, 5, List.of(
+                new Corner(0, 4, 0),
                 new Corner(1, 1, 1),
-                new Corner(1, 2, 1),
-                new Corner(1, 3, 2),
-                new Corner(1, 5, 1),
-                new Corner(2, 0, 1),
-                new Corner(2, 1, 2),
-                new Corner(2, 4, 1),
-                new Corner(2, 5, 1),
+                new Corner(1, 2, 2),
+                new Corner(1, 4, 2),
+                new Corner(2, 2, 2),
+                new Corner(2, 4, 2),
+                new Corner(3, 1, 3),
                 new Corner(3, 2, 1),
-                new Corner(3, 5, 0),
-                new Corner(4, 1, 2),
+                new Corner(3, 4, 3),
+                new Corner(4, 0, 1),
                 new Corner(4, 2, 1),
-                new Corner(4, 3, 2),
                 new Corner(4, 4, 1),
-                new Corner(5, 4, 1)));
+                new Corner(4, 5, 1),
+                new Corner(5, 1, 1)));
     }
 }
