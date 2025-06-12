@@ -22,7 +22,7 @@ public class OnePairStep extends Step {
     private void solveBottom(Board board) {
         ArrayList<ArrayList<Corner>> corners = board.getCorners();
 
-        int cols = corners.get(0).size();
+        int cols = corners.getFirst().size();
         int rows = corners.size();
 
         for(int j=0;j<cols;j++) {

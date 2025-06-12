@@ -33,6 +33,10 @@ public class Corner {
         return new Cell(x, y, CellValue.left, CellValue.right);
     }
 
+    public List<Cell> getAllCells() {
+        return List.of(getTopLeft(), getTopRight(), getBottomLeft(), getBottomRight());
+    }
+
     @Data
     public static class Cell {
         private final int x;
