@@ -1,15 +1,19 @@
-package com.sunhaj.slant.steps;
+package com.sunhaj.slant.steps.pairs;
 
 import com.sunhaj.slant.model.Board;
+import com.sunhaj.slant.model.CellValue;
 import com.sunhaj.slant.model.Corner;
-import org.springframework.stereotype.Service;
+import com.sunhaj.slant.steps.Step;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
-@Service
-public class OnePairStep extends Step {
+public abstract class PairStep extends Step {
+
+    protected abstract int getPairValue();
+    protected abstract Function<Corner.Cell, CellValue> setFunction();
 
     @Override
     public boolean execute(Board board) {
@@ -28,11 +32,14 @@ public class OnePairStep extends Step {
         for(int j=0;j<cols;j++) {
             for(int i=0;i<rows;i++) {
                 Corner corner = corners.get(i).get(j);
-                if (corner.getValue() == null || corner.getValue() != 1) {
+                if(board.isEdgedCorner(corner)) {
+                    continue;
+                }
+                if (corner.getValue() == null || corner.getValue() != getPairValue()) {
                     continue;
                 }
 
-                Optional<Corner> nextCorner = board.getNextCorner(corner, 1, Corner.Direction.bottom, List.of(2));
+                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.bottom, List.of(2));
                 if(nextCorner.isEmpty()) {
                     continue;
                 }
@@ -49,11 +56,14 @@ public class OnePairStep extends Step {
         for (ArrayList<Corner> cornerArrayList : corners) {
             for (int j = 0; j < cornerArrayList.size(); j++) {
                 Corner corner = cornerArrayList.get(j);
-                if (corner.getValue() == null || corner.getValue() != 1) {
+                if(board.isEdgedCorner(corner)) {
+                    continue;
+                }
+                if (corner.getValue() == null || corner.getValue() != getPairValue()) {
                     continue;
                 }
 
-                Optional<Corner> nextCorner = board.getNextCorner(corner, 1, Corner.Direction.right, List.of(2));
+                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.right, List.of(2));
                 if(nextCorner.isEmpty()) {
                     continue;
                 }
@@ -65,16 +75,10 @@ public class OnePairStep extends Step {
     }
 
     private void solve(Board board, Corner.Cell start1, Corner.Cell start2, Corner.Cell end1, Corner.Cell end2) {
-        if(start1.getIncoming().equals(board.getCellValue(start1.getX(), start1.getY())) ||
-        start2.getIncoming().equals(board.getCellValue(start2.getX(), start2.getY())) ||
-        end1.getIncoming().equals(board.getCellValue(end1.getX(), end2.getY())) ||
-        end2.getIncoming().equals(board.getCellValue(end2.getX(), end2.getY()))) {
-            return;
-        }
 
-        board.setCell(start1.getX(), start1.getY(), start1.getAway());
-        board.setCell(start2.getX(), start2.getY(), start2.getAway());
-        board.setCell(end1.getX(), end1.getY(), end1.getAway());
-        board.setCell(end2.getX(), end2.getY(), end2.getAway());
+        board.setCell(start1.getX(), start1.getY(), setFunction().apply(start1));
+        board.setCell(start2.getX(), start2.getY(), setFunction().apply(start2));
+        board.setCell(end1.getX(), end1.getY(), setFunction().apply(end1));
+        board.setCell(end2.getX(), end2.getY(), setFunction().apply(end2));
     }
 }
