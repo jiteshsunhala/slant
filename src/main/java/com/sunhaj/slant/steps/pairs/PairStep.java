@@ -14,6 +14,7 @@ public abstract class PairStep extends Step {
 
     protected abstract int getPairValue();
     protected abstract Function<Corner.Cell, CellValue> setFunction();
+    protected abstract List<Integer> getSkipList();
 
     @Override
     public boolean execute(Board board) {
@@ -37,7 +38,7 @@ public abstract class PairStep extends Step {
                     continue;
                 }
 
-                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.bottom, List.of(2));
+                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.bottom, getSkipList());
                 if(nextCorner.isEmpty()) {
                     continue;
                 }
@@ -54,14 +55,11 @@ public abstract class PairStep extends Step {
         for (int i=1;i<corners.size();i++) {
             for (int j = 0; j < corners.get(i).size(); j++) {
                 Corner corner = corners.get(i).get(j);
-                if(board.isEdgedCorner(corner)) {
-                    continue;
-                }
                 if (corner.getValue() == null || corner.getValue() != getPairValue()) {
                     continue;
                 }
 
-                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.right, List.of(2));
+                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.right, getSkipList());
                 if(nextCorner.isEmpty()) {
                     continue;
                 }

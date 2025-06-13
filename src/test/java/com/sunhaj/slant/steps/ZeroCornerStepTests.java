@@ -35,8 +35,8 @@ public class ZeroCornerStepTests {
 
         zeroCornerStep.execute(board);
 
-        Assertions.assertEquals(CellValue.left, board.getCellValue(0, 0));
-        Assertions.assertEquals(CellValue.right, board.getCellValue(0, 1));
+        Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 0));
+        Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 1));
     }
 
     @Test
@@ -56,6 +56,6 @@ public class ZeroCornerStepTests {
         ));
 
         zeroCornerStep.execute(board);
-        Assertions.assertEquals(CellValue.right, board.getCellValue(0, 0));
+        Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 0));
     }
 }

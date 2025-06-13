@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum CellValue {
-    left("\\"), right("/"), none(" "), invalid("~");
+    backward("\\"), forward("/"), none(" "), invalid("~");
 
     private final String value;
 

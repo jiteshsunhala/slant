@@ -18,19 +18,19 @@ public class Corner {
     }
 
     public Cell getTopLeft() {
-        return new Cell(x-1, y-1, CellValue.left, CellValue.right);
+        return new Cell(x-1, y-1, CellValue.backward, CellValue.forward);
     }
 
     public Cell getTopRight() {
-        return new Cell(x-1, y, CellValue.right, CellValue.left);
+        return new Cell(x-1, y, CellValue.forward, CellValue.backward);
     }
 
     public Cell getBottomLeft() {
-        return new Cell(x, y-1, CellValue.right, CellValue.left);
+        return new Cell(x, y-1, CellValue.forward, CellValue.backward);
     }
 
     public Cell getBottomRight() {
-        return new Cell(x, y, CellValue.left, CellValue.right);
+        return new Cell(x, y, CellValue.backward, CellValue.forward);
     }
 
     public List<Cell> getAllCells() {

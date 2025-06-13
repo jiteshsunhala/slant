@@ -39,8 +39,8 @@ public class OnePairStepTests {
 
             onePairStep.execute(board);
 
-            Assertions.assertEquals(CellValue.right, board.getCellValue(0, 1));
-            Assertions.assertEquals(CellValue.left, board.getCellValue(1, 1));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 1));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 1));
         }
 
         @Test
@@ -62,8 +62,8 @@ public class OnePairStepTests {
 
             onePairStep.execute(board);
 
-            Assertions.assertEquals(CellValue.right, board.getCellValue(0, 0));
-            Assertions.assertEquals(CellValue.left, board.getCellValue(1, 0));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 0));
         }
     }
 
@@ -88,8 +88,8 @@ public class OnePairStepTests {
 
             onePairStep.execute(board);
 
-            Assertions.assertEquals(CellValue.left, board.getCellValue(1, 0));
-            Assertions.assertEquals(CellValue.right, board.getCellValue(1, 1));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 0));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 1));
         }
 
         @Test
@@ -111,8 +111,106 @@ public class OnePairStepTests {
 
             onePairStep.execute(board);
 
-            Assertions.assertEquals(CellValue.left, board.getCellValue(2, 0));
-            Assertions.assertEquals(CellValue.right, board.getCellValue(2, 1));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(2, 0));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(2, 1));
+        }
+    }
+
+    @Nested
+    public class OneOnLeftEdge {
+
+        @Test
+        public void oneWithoutTwos() {
+            /*
+            +-+-+-+
+            | | | |
+            1-1-+-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 0, 1),
+                    new Corner(1, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 1));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 1));
+        }
+
+        @Test
+        public void oneWithTwos() {
+            /*
+            +-+-+-+
+            | | | |
+            1-2-1-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 0, 1),
+                    new Corner(1, 1, 2),
+                    new Corner(1, 2, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 2));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 2));
+        }
+    }
+
+    @Nested
+    public class OneOnBottomEdge {
+
+        @Test
+        public void oneWithoutTwos() {
+            /*
+            +-+-+-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-1-+-+
+            | | | |
+            +-1-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(2, 1, 1),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 1));
+        }
+
+        @Test
+        public void oneWithTwos() {
+            /*
+            +-+-+-+
+            | | | |
+            +-1-+-+
+            | | | |
+            +-2-+-+
+            | | | |
+            +-1-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(2, 1, 2),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 1));
         }
     }
 }
