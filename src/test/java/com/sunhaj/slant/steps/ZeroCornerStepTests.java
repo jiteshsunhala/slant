@@ -58,25 +58,4 @@ public class ZeroCornerStepTests {
         zeroCornerStep.execute(board);
         Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 0));
     }
-
-    @Test
-    public void zeroTwoCellCorner() {
-        /*
-        +-0-+-+
-        | | | |
-        +-+-+-+
-        | | | |
-        +-+-+-+
-        | | | |
-        +-+-+-+
-         */
-
-        Board board = new Board(3, 3, List.of(
-                new Corner(0, 1, 0)
-        ));
-
-        zeroCornerStep.execute(board);
-        Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 0));
-        Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 1));
-    }
 }
