@@ -29,12 +29,10 @@ public abstract class PairStep extends Step {
         int cols = corners.getFirst().size();
         int rows = corners.size();
 
-        for(int j=0;j<cols;j++) {
+        for(int j=1;j<cols;j++) {
             for(int i=0;i<rows;i++) {
                 Corner corner = corners.get(i).get(j);
-                if(board.isEdgedCorner(corner)) {
-                    continue;
-                }
+
                 if (corner.getValue() == null || corner.getValue() != getPairValue()) {
                     continue;
                 }
@@ -53,9 +51,9 @@ public abstract class PairStep extends Step {
     private void solveRight(Board board) {
         ArrayList<ArrayList<Corner>> corners = board.getCorners();
 
-        for (ArrayList<Corner> cornerArrayList : corners) {
-            for (int j = 0; j < cornerArrayList.size(); j++) {
-                Corner corner = cornerArrayList.get(j);
+        for (int i=1;i<corners.size();i++) {
+            for (int j = 0; j < corners.get(i).size(); j++) {
+                Corner corner = corners.get(i).get(j);
                 if(board.isEdgedCorner(corner)) {
                     continue;
                 }
