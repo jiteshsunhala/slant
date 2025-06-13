@@ -213,4 +213,152 @@ public class OnePairStepTests {
             Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 1));
         }
     }
+
+    @Nested
+    public class OnePairBetweenBoard {
+
+        @Test
+        public void oneWithoutTwosOnRight() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-1-1-+-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(4, 4, List.of(
+                    new Corner(2, 1, 1),
+                    new Corner(2, 2, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(2, 0));
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 2));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(2, 2));
+        }
+
+        @Test
+        public void oneWithoutTwosOnBottom() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-1-+-+-+
+            | | | | |
+            +-1-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(4, 4, List.of(
+                    new Corner(2, 1, 1),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 1));
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(3, 0));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(3, 1));
+        }
+
+        @Test
+        public void oneWithTwosOnRight() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-1-2-1-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(4, 4, List.of(
+                    new Corner(2, 1, 1),
+                    new Corner(2, 2, 2),
+                    new Corner(2, 3, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(2, 0));
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 3));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(2, 3));
+        }
+
+        @Test
+        public void oneWithTwosOnBottom() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-1-+-+-+
+            | | | | |
+            +-2-+-+-+
+            | | | | |
+            +-1-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(4, 4, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(2, 1, 2),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 1));
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(3, 0));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(3, 1));
+        }
+
+        @Test
+        public void mixedOnes() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-1-2-1-+
+            | | | | |
+            +-2-+-+-+
+            | | | | |
+            +-1-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(4, 4, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(1, 2, 2),
+                    new Corner(1, 3, 1),
+                    new Corner(2, 1, 2),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 0));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(0, 1));
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(1,0));
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(3, 0));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(3, 1));
+
+            Assertions.assertEquals(CellValue.backward, board.getCellValue(0,3));
+            Assertions.assertEquals(CellValue.forward, board.getCellValue(1,3));
+        }
+    }
 }
