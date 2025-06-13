@@ -64,10 +64,6 @@ public class Board {
         System.out.println();
     }
 
-    public Optional<Corner> getNextCorner(Corner corner, int value, Corner.Direction cornerDirection) {
-        return getNextCorner(corner, value, cornerDirection, List.of());
-    }
-
     public Optional<Corner> getNextCorner(Corner corner, int value, Corner.Direction cornerDirection, List<Integer> skipValues) {
         int incX = cornerDirection.getX();
         int incY = cornerDirection.getY();
@@ -99,14 +95,6 @@ public class Board {
             return;
         }
         cells.get(x).set(y, cellValue);
-    }
-
-    public boolean isEdgedCorner(Corner corner) {
-        return corner.getX() == 0 || corner.getX() == r || corner.getY() == 0 || corner.getY() == c;
-    }
-
-    private String getKey(Corner corner) {
-        return getKey(corner.getX(), corner.getY());
     }
 
     private String getKey(int x, int y) {
