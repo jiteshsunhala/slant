@@ -22,6 +22,27 @@ public class OnePairStepTests {
     public class OneOnRightEdge {
 
         @Test
+        public void twoOnesOnEdge() {
+            /*
+            +-+-+-+
+            | | | |
+            +-+-+-1
+            | | | |
+            +-+-+-1
+            | | | |
+            +-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 3, 1),
+                    new Corner(2, 3, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
+
+        @Test
         public void oneWithoutTwos() {
             /*
             +-+-+-+
@@ -38,7 +59,6 @@ public class OnePairStepTests {
             ));
 
             onePairStep.execute(board);
-            board.print();
 
             Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 1));
             Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 1));
@@ -70,6 +90,27 @@ public class OnePairStepTests {
 
     @Nested
     public class OneOnTopEdge {
+
+        @Test
+        public void twoOnesOnEdge() {
+            /*
+            +-1-1-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(0, 1, 1),
+                    new Corner(0, 2, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
 
         @Test
         public void oneWithoutTwos() {
@@ -122,6 +163,27 @@ public class OnePairStepTests {
     public class OneOnLeftEdge {
 
         @Test
+        public void twoOnesOnEdge() {
+            /*
+            +-+-+-+
+            | | | |
+            1-+-+-+
+            | | | |
+            1-+-+-+
+            | | | |
+            +-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 0, 1),
+                    new Corner(2, 0, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
+
+        @Test
         public void oneWithoutTwos() {
             /*
             +-+-+-+
@@ -169,6 +231,27 @@ public class OnePairStepTests {
 
     @Nested
     public class OneOnBottomEdge {
+
+        @Test
+        public void twoOnesOnEdge() {
+            /*
+            +-+-+-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-1-1-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(3, 1, 1),
+                    new Corner(3, 2, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
 
         @Test
         public void oneWithoutTwos() {
@@ -361,6 +444,96 @@ public class OnePairStepTests {
 
             Assertions.assertEquals(CellValue.backward, board.getCellValue(0,3));
             Assertions.assertEquals(CellValue.forward, board.getCellValue(1,3));
+        }
+    }
+
+    @Nested
+    public class NegativeTests {
+
+        @Test
+        public void threeBetweenVerticalOnes() {
+            /*
+            +-+-+-+
+            | | | |
+            +-1-+-+
+            | | | |
+            +-3-+-+
+            | | | |
+            +-1-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(2, 1, 3),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
+
+        @Test
+        public void emptyBetweenVerticalOnes() {
+            /*
+            +-+-+-+
+            | | | |
+            +-1-+-+
+            | | | |
+            +-+-+-+
+            | | | |
+            +-1-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(3, 1, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
+
+        @Test
+        public void threeBetweenHorizontalOnes() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-1-3-1-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(1, 2, 3),
+                    new Corner(1, 3, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
+        }
+
+        @Test
+        public void emptyBetweenHorizontalOnes() {
+            /*
+            +-+-+-+-+
+            | | | | |
+            +-1-+-1-+
+            | | | | |
+            +-+-+-+-+
+            | | | | |
+            +-+-+-+-+
+             */
+            Board board = new Board(3, 3, List.of(
+                    new Corner(1, 1, 1),
+                    new Corner(1, 3, 1)
+            ));
+
+            onePairStep.execute(board);
+
+            Assertions.assertTrue(board.getAllCellValues().stream().allMatch(CellValue.none::equals));
         }
     }
 }
