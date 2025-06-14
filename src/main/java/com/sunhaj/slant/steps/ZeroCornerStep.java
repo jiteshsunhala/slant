@@ -13,6 +13,8 @@ public class ZeroCornerStep extends Step {
     @Override
     public boolean execute(Board board) {
 
+        System.out.println("zero corner step");
+
         board.getCorners()
                 .stream()
                 .flatMap(Collection::stream)
@@ -21,6 +23,8 @@ public class ZeroCornerStep extends Step {
                     List<Corner.Cell> cells = corner.getAllCells();
                     cells.forEach(cell -> board.setCell(cell.getX(), cell.getY(), cell.getAway()));
                 });
+
+        board.print();
 
         return executeNext(board);
     }

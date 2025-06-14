@@ -3,6 +3,7 @@ package com.sunhaj.slant.model;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,5 +104,13 @@ public class Board {
 
     private boolean isValidCell(int x, int y) {
         return x >= 0 && x < r && y >= 0 && y < c;
+    }
+
+    public boolean isEdgedCorner(Corner corner) {
+        return corner.getX() == 0 || corner.getX() == r || corner.getY() == 0 || corner.getY() == c;
+    }
+
+    public List<CellValue> getAllCellValues() {
+        return cells.stream().flatMap(Collection::stream).toList();
     }
 }

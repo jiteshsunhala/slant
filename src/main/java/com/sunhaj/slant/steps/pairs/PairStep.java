@@ -12,14 +12,20 @@ import java.util.function.Function;
 
 public abstract class PairStep extends Step {
 
+    protected abstract String getStepName();
     protected abstract int getPairValue();
     protected abstract Function<Corner.Cell, CellValue> setFunction();
     protected abstract List<Integer> getSkipList();
 
     @Override
     public boolean execute(Board board) {
+
+        System.out.println(getStepName());
+
         solveRight(board);
         solveBottom(board);
+
+        board.print();
 
         return executeNext(board);
     }

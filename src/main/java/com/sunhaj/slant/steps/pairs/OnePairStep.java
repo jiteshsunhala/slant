@@ -9,6 +9,12 @@ import java.util.function.Function;
 
 @Service
 public class OnePairStep extends PairStep {
+
+    @Override
+    protected String getStepName() {
+        return "one pair step";
+    }
+
     @Override
     protected int getPairValue() {
         return 1;

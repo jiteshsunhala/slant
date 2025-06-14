@@ -38,6 +38,7 @@ public class OnePairStepTests {
             ));
 
             onePairStep.execute(board);
+            board.print();
 
             Assertions.assertEquals(CellValue.forward, board.getCellValue(0, 1));
             Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 1));
@@ -87,6 +88,7 @@ public class OnePairStepTests {
             ));
 
             onePairStep.execute(board);
+            board.print();
 
             Assertions.assertEquals(CellValue.backward, board.getCellValue(1, 0));
             Assertions.assertEquals(CellValue.forward, board.getCellValue(1, 1));
