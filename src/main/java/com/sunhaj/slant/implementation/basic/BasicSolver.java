@@ -30,7 +30,8 @@ public class BasicSolver implements SlantSolver {
 
     @Override
     public void solve(Board board) {
-        Step nonIterativeSteps = Step.link(onePairStep, List.of(zeroCornerStep, threePairStep));
+        Step nonIterativeSteps = Step.link(onePairStep, List.of(zeroCornerStep, threePairStep, diagonalOnesStep));
         nonIterativeSteps.execute(board);
+
     }
 }
