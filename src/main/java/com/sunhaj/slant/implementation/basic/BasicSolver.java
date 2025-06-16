@@ -3,6 +3,8 @@ package com.sunhaj.slant.implementation.basic;
 import com.sunhaj.slant.model.Board;
 import com.sunhaj.slant.solver.SlantSolver;
 import com.sunhaj.slant.steps.*;
+import com.sunhaj.slant.steps.pairs.onePair.EdgedOnePairStep;
+import com.sunhaj.slant.steps.pairs.onePair.NonEdgedOnePairStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.sunhaj.slant.steps;
+package com.sunhaj.slant.steps.pairs.onePair;
 
 import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.pairs.PairCondition;
