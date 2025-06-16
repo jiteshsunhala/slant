@@ -5,6 +5,7 @@ import com.sunhaj.slant.solver.SlantSolver;
 import com.sunhaj.slant.steps.*;
 import com.sunhaj.slant.steps.pairs.onePair.EdgedOnePairStep;
 import com.sunhaj.slant.steps.pairs.onePair.NonEdgedOnePairStep;
+import com.sunhaj.slant.steps.pairs.threePair.ThreePairStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
