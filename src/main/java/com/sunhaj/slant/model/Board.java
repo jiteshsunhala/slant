@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 @Data
 public class Board {
@@ -65,23 +68,35 @@ public class Board {
         System.out.println();
     }
 
-    public Optional<Corner> getNextCorner(Corner corner, int value, Corner.Direction cornerDirection, List<Integer> skipValues) {
+    public Optional<Corner> getNextCorner(Corner corner,
+                                          int value,
+                                          Corner.Direction cornerDirection,
+                                          BiPredicate<Board, Corner> cornerCondition,
+                                          List<Integer> skipValues) {
         int incX = cornerDirection.getX();
         int incY = cornerDirection.getY();
 
         for(int i=corner.getX() + incX,j=corner.getY() + incY;i<=r && j<=c; i += incX, j += incY) {
-            Integer cornerValue = corners.get(i).get(j).getValue();
+            Corner nextCorner = corners.get(i).get(j);
+            Integer cornerValue = nextCorner.getValue();
+
             if(cornerValue == null) {
                 return Optional.empty();
             }
-            if(value == cornerValue) {
+
+            if(value == cornerValue && cornerCondition.test(this, nextCorner)) {
                 return Optional.of(corners.get(i).get(j));
             }
+
             if(!skipValues.contains(cornerValue)) {
                 return Optional.empty();
             }
         }
         return Optional.empty();
+    }
+
+    public CellValue getCellValue(Corner.Cell cell) {
+        return getCellValue(cell.getX(), cell.getY());
     }
 
     public CellValue getCellValue(int x, int y) {
@@ -98,10 +113,6 @@ public class Board {
         cells.get(x).set(y, cellValue);
     }
 
-    private String getKey(int x, int y) {
-        return String.join("_", String.valueOf(x), String.valueOf(y));
-    }
-
     private boolean isValidCell(int x, int y) {
         return x >= 0 && x < r && y >= 0 && y < c;
     }
@@ -112,5 +123,9 @@ public class Board {
 
     public List<CellValue> getAllCellValues() {
         return cells.stream().flatMap(Collection::stream).toList();
+    }
+
+    public List<Corner> getAllCorners() {
+        return getCorners().stream().flatMap(Collection::stream).toList();
     }
 }

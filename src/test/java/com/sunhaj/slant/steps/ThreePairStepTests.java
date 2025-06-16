@@ -1,4 +1,4 @@
-package com.sunhaj.slant.steps.pairs;
+package com.sunhaj.slant.steps;
 
 import com.sunhaj.slant.config.SlantTestConfiguration;
 import com.sunhaj.slant.model.Board;
