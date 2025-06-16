@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiPredicate;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Data
 public class Board {
@@ -76,7 +74,7 @@ public class Board {
         int incX = cornerDirection.getX();
         int incY = cornerDirection.getY();
 
-        for(int i=corner.getX() + incX,j=corner.getY() + incY;i<=r && j<=c; i += incX, j += incY) {
+        for(int i=corner.getX() + incX,j=corner.getY() + incY;isValidCorner(i, j); i += incX, j += incY) {
             Corner nextCorner = corners.get(i).get(j);
             Integer cornerValue = nextCorner.getValue();
 
@@ -113,6 +111,10 @@ public class Board {
         cells.get(x).set(y, cellValue);
     }
 
+    public boolean isValidCell(Corner.Cell cell) {
+        return isValidCell(cell.getX(), cell.getY());
+    }
+
     private boolean isValidCell(int x, int y) {
         return x >= 0 && x < r && y >= 0 && y < c;
     }
@@ -127,5 +129,9 @@ public class Board {
 
     public List<Corner> getAllCorners() {
         return getCorners().stream().flatMap(Collection::stream).toList();
+    }
+
+    private boolean isValidCorner(int x, int y) {
+        return x >= 0 && x <= r && y >= 0 && y <= c;
     }
 }
