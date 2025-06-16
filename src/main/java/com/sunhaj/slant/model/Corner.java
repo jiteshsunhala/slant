@@ -44,6 +44,10 @@ public class Corner {
         private final CellValue incoming;
         private final CellValue away;
 
+        public Cell(int x, int y) {
+            this(x, y, CellValue.backward, CellValue.forward);
+        }
+
         public Cell(int x, int y, CellValue incoming, CellValue away) {
             this.x = x;
             this.y = y;
