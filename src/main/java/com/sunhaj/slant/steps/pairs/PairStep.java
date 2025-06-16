@@ -17,7 +17,6 @@ public abstract class PairStep extends Step {
 
     @Override
     public boolean execute(Board board) {
-        System.out.println("Executing: " + getStepName());
         List<PairCondition> pairConditions = getPairConditions();
 
         if(pairConditions == null || pairConditions.isEmpty()) {
