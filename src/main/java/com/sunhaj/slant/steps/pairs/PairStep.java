@@ -5,82 +5,80 @@ import com.sunhaj.slant.model.CellValue;
 import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 public abstract class PairStep extends Step {
 
+    protected abstract List<PairCondition> getPairConditions();
     protected abstract String getStepName();
-    protected abstract int getPairValue();
-    protected abstract Function<Corner.Cell, CellValue> setFunction();
-    protected abstract List<Integer> getSkipList();
 
     @Override
     public boolean execute(Board board) {
+        System.out.println("Executing: " + getStepName());
+        List<PairCondition> pairConditions = getPairConditions();
 
-        System.out.println(getStepName());
+        if(pairConditions == null || pairConditions.isEmpty()) {
+            throw new IllegalArgumentException("Pair condition can't be null or empty");
+        }
 
-        solveRight(board);
-        solveBottom(board);
-
-        board.print();
+        board.getAllCorners()
+                .forEach(corner -> trySolving(board, corner, pairConditions));
 
         return executeNext(board);
     }
 
-    private void solveBottom(Board board) {
-        ArrayList<ArrayList<Corner>> corners = board.getCorners();
-
-        int cols = corners.getFirst().size();
-        int rows = corners.size();
-
-        for(int j=1;j<cols-1;j++) {
-            for(int i=0;i<rows;i++) {
-                Corner corner = corners.get(i).get(j);
-
-                if (corner.getValue() == null || corner.getValue() != getPairValue()) {
-                    continue;
-                }
-
-                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.bottom, getSkipList());
-                if(nextCorner.isEmpty()) {
-                    continue;
-                }
-
-                solve(board, corner.getTopLeft(), corner.getTopRight(), nextCorner.get().getBottomLeft(), nextCorner.get().getBottomRight());
-                i = nextCorner.get().getX();
+    private void trySolving(Board board, Corner corner, List<PairCondition> pairConditions) {
+        for(PairCondition pairCondition: pairConditions) {
+            if(!pairCondition.getStartCornerCondition().test(board, corner) ||
+                    corner.getValue() == null ||
+                    corner.getValue() != pairCondition.getStartCornerValue()) {
+                continue;
             }
+
+            Optional<Corner> nextCorner = board.getNextCorner(corner,
+                    pairCondition.getEndCornerValue(),
+                    pairCondition.getPairDirection(),
+                    pairCondition.getEndCornerCondition(),
+                    pairCondition.getSkipValues()
+            );
+
+            nextCorner.ifPresent(endCorner -> solve(board, corner, endCorner, pairCondition));
         }
     }
 
-    private void solveRight(Board board) {
-        ArrayList<ArrayList<Corner>> corners = board.getCorners();
+    private void solve(Board board, Corner startCorner, Corner endCorner, PairCondition pairCondition) {
+        List<Corner.Cell> startCells = pairCondition.getStartCellFunctions()
+                .stream()
+                .map(fn -> fn.apply(startCorner))
+                .toList();
 
-        for (int i=1;i<corners.size()-1;i++) {
-            for (int j = 0; j < corners.get(i).size(); j++) {
-                Corner corner = corners.get(i).get(j);
-                if (corner.getValue() == null || corner.getValue() != getPairValue()) {
-                    continue;
-                }
-
-                Optional<Corner> nextCorner = board.getNextCorner(corner, getPairValue(), Corner.Direction.right, getSkipList());
-                if(nextCorner.isEmpty()) {
-                    continue;
-                }
-
-                solve(board, corner.getTopLeft(), corner.getBottomLeft(), nextCorner.get().getTopRight(), nextCorner.get().getBottomRight());
-                j = nextCorner.get().getY();
-            }
+        if(!areValidCells(board, startCells, pairCondition.getStartCellCondition())) {
+            return;
         }
+
+        List<Corner.Cell> endCells = pairCondition.getEndCellFunctions()
+                .stream()
+                .map(fn -> fn.apply(endCorner))
+                .toList();
+
+        if(!areValidCells(board, endCells, pairCondition.getEndCellCondition())) {
+            return;
+        }
+
+        setCells(board, startCells, pairCondition.getStartCellValueFunction());
+        setCells(board, endCells, pairCondition.getEndCellValueFunction());
     }
 
-    private void solve(Board board, Corner.Cell start1, Corner.Cell start2, Corner.Cell end1, Corner.Cell end2) {
+    private void setCells(Board board, List<Corner.Cell> cells, Function<Corner.Cell, CellValue> cellValueFn) {
+        cells.stream().forEach(cell -> {
+            board.setCell(cell.getX(), cell.getY(), cellValueFn.apply(cell));
+        });
+    }
 
-        board.setCell(start1.getX(), start1.getY(), setFunction().apply(start1));
-        board.setCell(start2.getX(), start2.getY(), setFunction().apply(start2));
-        board.setCell(end1.getX(), end1.getY(), setFunction().apply(end1));
-        board.setCell(end2.getX(), end2.getY(), setFunction().apply(end2));
+    private boolean areValidCells(Board board, List<Corner.Cell> cells, BiPredicate<Board, Corner.Cell> cellCondition) {
+        return cells.stream().allMatch(cell -> cellCondition.test(board, cell));
     }
 }
