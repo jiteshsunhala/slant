@@ -43,9 +43,4 @@ public class ThreePairStep extends PairStep {
                         .build()
         );
     }
-
-    @Override
-    protected String getStepName() {
-        return "three pair step";
-    }
 }

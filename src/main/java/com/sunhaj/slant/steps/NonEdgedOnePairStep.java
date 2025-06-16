@@ -43,9 +43,4 @@ public class NonEdgedOnePairStep extends PairStep {
                         .build()
         );
     }
-
-    @Override
-    protected String getStepName() {
-        return "one pair step";
-    }
 }

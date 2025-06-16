@@ -13,7 +13,6 @@ import java.util.function.Function;
 public abstract class PairStep extends Step {
 
     protected abstract List<PairCondition> getPairConditions();
-    protected abstract String getStepName();
 
     @Override
     public boolean execute(Board board) {
@@ -72,9 +71,7 @@ public abstract class PairStep extends Step {
     }
 
     private void setCells(Board board, List<Corner.Cell> cells, Function<Corner.Cell, CellValue> cellValueFn) {
-        cells.stream().forEach(cell -> {
-            board.setCell(cell.getX(), cell.getY(), cellValueFn.apply(cell));
-        });
+        cells.forEach(cell -> board.setCell(cell.getX(), cell.getY(), cellValueFn.apply(cell)));
     }
 
     private boolean areValidCells(Board board, List<Corner.Cell> cells, BiPredicate<Board, Corner.Cell> cellCondition) {
