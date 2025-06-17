@@ -134,4 +134,8 @@ public class Board {
     private boolean isValidCorner(int x, int y) {
         return x >= 0 && x <= r && y >= 0 && y <= c;
     }
+
+    public boolean isSolved() {
+        return getAllCellValues().stream().noneMatch(CellValue.none::equals);
+    }
 }

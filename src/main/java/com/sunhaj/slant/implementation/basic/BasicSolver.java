@@ -6,11 +6,15 @@ import com.sunhaj.slant.steps.*;
 import com.sunhaj.slant.steps.pairs.onePair.EdgedOnePairStep;
 import com.sunhaj.slant.steps.pairs.onePair.NonEdgedOnePairStep;
 import com.sunhaj.slant.steps.pairs.oneThreePair.EdgedOneThreePairStep;
+import com.sunhaj.slant.steps.pairs.oneThreePair.NonEdgedOneThreePairStep;
+import com.sunhaj.slant.steps.pairs.oneThreePair.NonEdgedThreeOnePairStep;
 import com.sunhaj.slant.steps.pairs.threePair.ThreePairStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BasicSolver implements SlantSolver {
@@ -22,6 +26,8 @@ public class BasicSolver implements SlantSolver {
     private final DiagonalOnesStep diagonalOnesStep;
 
     private final EdgedOneThreePairStep edgedOneThreePairStep;
+    private final NonEdgedOneThreePairStep nonEdgedOneThreePairStep;
+    private final NonEdgedThreeOnePairStep nonEdgedThreeOnePairStep;
 
     @Autowired
     public BasicSolver(NonEdgedOnePairStep nonEdgedOnePairStep,
@@ -29,7 +35,9 @@ public class BasicSolver implements SlantSolver {
                        ThreePairStep threePairStep,
                        DiagonalOnesStep diagonalOnesStep,
                        EdgedOnePairStep edgedOnePairStep,
-                       EdgedOneThreePairStep edgedOneThreePairStep) {
+                       EdgedOneThreePairStep edgedOneThreePairStep,
+                       NonEdgedOneThreePairStep nonEdgedOneThreePairStep,
+                       NonEdgedThreeOnePairStep nonEdgedThreeOnePairStep) {
         this.nonEdgedOnePairStep = nonEdgedOnePairStep;
         this.zeroCornerStep = zeroCornerStep;
         this.threePairStep = threePairStep;
@@ -37,13 +45,28 @@ public class BasicSolver implements SlantSolver {
         this.edgedOnePairStep = edgedOnePairStep;
 
         this.edgedOneThreePairStep = edgedOneThreePairStep;
+        this.nonEdgedOneThreePairStep = nonEdgedOneThreePairStep;
+        this.nonEdgedThreeOnePairStep = nonEdgedThreeOnePairStep;
     }
 
     @Override
     public void solve(Board board) {
         Step nonIterativeSteps = Step.link(nonEdgedOnePairStep, List.of(edgedOnePairStep, zeroCornerStep, threePairStep, diagonalOnesStep));
+        Step iterativeSteps = Step.link(edgedOneThreePairStep, List.of(nonEdgedOneThreePairStep, nonEdgedThreeOnePairStep));
 
-        Step iterativeSteps = Step.link(edgedOneThreePairStep, List.of());
+        Map<Board, Integer> counts = new HashMap<>();
+
         nonIterativeSteps.execute(board);
+        board.print();
+        System.out.println("Starting iterative steps.");
+        while(!board.isSolved()) {
+            iterativeSteps.execute(board);
+            board.print();
+            int value = counts.computeIfAbsent(board, b -> 0);
+            if(value == 3) {
+                break;
+            }
+            counts.put(board, value + 1);
+        }
     }
 }
