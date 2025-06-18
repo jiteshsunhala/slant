@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
@@ -15,18 +16,16 @@ import java.util.function.Function;
 @Builder
 public class PairCondition {
 
+    private List<Integer> skipValues;
+    private Corner.Direction pairDirection;
+
     private int startCornerValue;
     private BiPredicate<Board, Corner> startCornerCondition;
-    private List<Function<Corner, Corner.Cell>> startCellFunctions;
-    private BiPredicate<Board, Corner.Cell> startCellCondition;
+    private Map<Function<Corner, Corner.Cell>, BiPredicate<Board, Corner.Cell>> startCellConditions;
 
     private int endCornerValue;
     private BiPredicate<Board, Corner> endCornerCondition;
-    private List<Function<Corner, Corner.Cell>> endCellFunctions;
-    private BiPredicate<Board, Corner.Cell> endCellCondition;
-
-    private List<Integer> skipValues;
-    private Corner.Direction pairDirection;
+    private Map<Function<Corner, Corner.Cell>, BiPredicate<Board, Corner.Cell>> endCellConditions;
 
     private Function<Corner.Cell, CellValue> startCellValueFunction;
     private Function<Corner.Cell, CellValue> endCellValueFunction;

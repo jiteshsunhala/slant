@@ -3,9 +3,11 @@ package com.sunhaj.slant.steps.pairs.oneThreePair;
 import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.pairs.PairCondition;
 import com.sunhaj.slant.steps.pairs.PairStep;
+import com.sunhaj.slant.util.AlwaysTrue;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NonEdgedOneThreePairStep extends PairStep {
@@ -18,13 +20,17 @@ public class NonEdgedOneThreePairStep extends PairStep {
                         .skipValues(List.of(2))
                         .startCornerValue(1)
                         .startCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .startCellFunctions(List.of(Corner::getTopLeft, Corner::getBottomLeft))
-                        .startCellCondition((board, cell) -> cell.getAway().equals(board.getCellValue(cell)))
+                        .startCellConditions(Map.of(
+                                Corner::getTopLeft, (board, cell) -> cell.getAway().equals(board.getCellValue(cell)),
+                                Corner::getBottomLeft, (board, cell) -> cell.getAway().equals(board.getCellValue(cell))
+                        ))
                         .startCellValueFunction(Corner.Cell::getAway)
                         .endCornerValue(3)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .endCellFunctions(List.of(Corner::getTopRight, Corner::getBottomRight))
-                        .endCellCondition((board, cell) -> !cell.getAway().equals(board.getCellValue(cell)))
+                        .endCornerCondition(new AlwaysTrue<>())
+                        .endCellConditions(Map.of(
+                                Corner::getTopRight, (board, cell) -> !cell.getAway().equals(board.getCellValue(cell)),
+                                Corner::getBottomRight, (board, cell) -> !cell.getAway().equals(board.getCellValue(cell))
+                        ))
                         .endCellValueFunction(Corner.Cell::getIncoming)
                         .build(),
                 PairCondition.builder()
@@ -32,13 +38,17 @@ public class NonEdgedOneThreePairStep extends PairStep {
                         .skipValues(List.of(2))
                         .startCornerValue(1)
                         .startCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .startCellFunctions(List.of(Corner::getTopLeft, Corner::getTopRight))
-                        .startCellCondition((board, cell) -> cell.getAway().equals(board.getCellValue(cell)))
+                        .startCellConditions(Map.of(
+                                Corner::getTopLeft, (board, cell) -> cell.getAway().equals(board.getCellValue(cell)),
+                                Corner::getTopRight, (board, cell) -> cell.getAway().equals(board.getCellValue(cell))
+                        ))
                         .startCellValueFunction(Corner.Cell::getAway)
                         .endCornerValue(3)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .endCellFunctions(List.of(Corner::getBottomLeft, Corner::getBottomRight))
-                        .endCellCondition((board, cell) -> !cell.getAway().equals(board.getCellValue(cell)))
+                        .endCornerCondition(new AlwaysTrue<>())
+                        .endCellConditions(Map.of(
+                                Corner::getBottomLeft, (board, cell) -> !cell.getAway().equals(board.getCellValue(cell)),
+                                Corner::getBottomRight, (board, cell) -> !cell.getAway().equals(board.getCellValue(cell))
+                        ))
                         .endCellValueFunction(Corner.Cell::getIncoming)
                         .build()
         );

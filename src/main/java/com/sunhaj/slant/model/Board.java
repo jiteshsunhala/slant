@@ -74,7 +74,7 @@ public class Board {
         int incX = cornerDirection.getX();
         int incY = cornerDirection.getY();
 
-        for(int i=corner.getX() + incX,j=corner.getY() + incY;isValidCorner(i, j); i += incX, j += incY) {
+        for(int i=corner.getX() + incX, j=corner.getY() + incY;isValidCorner(i, j); i += incX, j += incY) {
             Corner nextCorner = corners.get(i).get(j);
             Integer cornerValue = nextCorner.getValue();
 
@@ -109,10 +109,6 @@ public class Board {
             return;
         }
         cells.get(x).set(y, cellValue);
-    }
-
-    public boolean isValidCell(Corner.Cell cell) {
-        return isValidCell(cell.getX(), cell.getY());
     }
 
     private boolean isValidCell(int x, int y) {

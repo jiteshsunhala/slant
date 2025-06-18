@@ -6,6 +6,7 @@ import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.Step;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
@@ -48,23 +49,28 @@ public abstract class PairStep extends Step {
     }
 
     private void solve(Board board, Corner startCorner, Corner endCorner, PairCondition pairCondition) {
-        List<Corner.Cell> startCells = pairCondition.getStartCellFunctions()
+
+        if(!areValidCells(board, startCorner, pairCondition.getStartCellConditions())) {
+            return;
+        }
+
+        if(!areValidCells(board, endCorner, pairCondition.getEndCellConditions())) {
+            return;
+        }
+
+        List<Corner.Cell> startCells = pairCondition
+                .getStartCellConditions()
+                .keySet()
                 .stream()
                 .map(fn -> fn.apply(startCorner))
                 .toList();
 
-        if(!areValidCells(board, startCells, pairCondition.getStartCellCondition())) {
-            return;
-        }
-
-        List<Corner.Cell> endCells = pairCondition.getEndCellFunctions()
+        List<Corner.Cell> endCells = pairCondition
+                .getEndCellConditions()
+                .keySet()
                 .stream()
                 .map(fn -> fn.apply(endCorner))
                 .toList();
-
-        if(!areValidCells(board, endCells, pairCondition.getEndCellCondition())) {
-            return;
-        }
 
         setCells(board, startCells, pairCondition.getStartCellValueFunction());
         setCells(board, endCells, pairCondition.getEndCellValueFunction());
@@ -74,7 +80,10 @@ public abstract class PairStep extends Step {
         cells.forEach(cell -> board.setCell(cell.getX(), cell.getY(), cellValueFn.apply(cell)));
     }
 
-    private boolean areValidCells(Board board, List<Corner.Cell> cells, BiPredicate<Board, Corner.Cell> cellCondition) {
-        return cells.stream().allMatch(cell -> cellCondition.test(board, cell));
+    private boolean areValidCells(Board board, Corner corner, Map<Function<Corner, Corner.Cell>, BiPredicate<Board, Corner.Cell>> cellConditions) {
+        return cellConditions
+                .entrySet()
+                .stream()
+                .allMatch(entry -> entry.getValue().test(board, entry.getKey().apply(corner)));
     }
 }
