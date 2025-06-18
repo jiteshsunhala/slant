@@ -35,7 +35,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two on top edge",
+                        "adjacent two on top edge with incoming edge",
                         getBoard(4, 4,
                         List.of(
                                 new Corner(0, 1, 1),
@@ -67,7 +67,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two two on top edge",
+                        "next two on top edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(0, 1, 1),
@@ -100,7 +100,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two on left edge",
+                        "adjacent two on left edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(1, 0, 1),
@@ -132,7 +132,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two two on left edge",
+                        "next two on left edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(1, 0, 1),
@@ -165,7 +165,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two on right edge",
+                        "adjacent two on right edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(1, 3, 2),
@@ -197,7 +197,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two two on right edge",
+                        "next two on right edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(1, 2, 2),
@@ -230,7 +230,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two on bottom edge",
+                        "adjacent two on bottom edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(3, 2, 2),
@@ -262,7 +262,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "one two two on bottom edge",
+                        "next two on bottom edge with incoming edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(2, 2, 2),
@@ -295,7 +295,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "first two with edge on bottom edge",
+                        "adjacent two on bottom edge with away edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(2, 2, 2),
@@ -328,7 +328,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "first two with edge on right edge",
+                        "adjacent two on left edge with away edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(2, 2, 2),
@@ -361,7 +361,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "first two with edge on top edge",
+                        "adjacent two on top edge with away edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(0, 2, 1),
@@ -394,7 +394,7 @@ public class EdgedOneTwoPairStepTest {
                  */
 
                 Arguments.of(
-                        "first two with edge on left edge",
+                        "adjacent two on left edge with away edge",
                         getBoard(4, 4,
                                 List.of(
                                         new Corner(2, 0, 1),
@@ -412,6 +412,36 @@ public class EdgedOneTwoPairStepTest {
                                 CellValue.forward,
                                 new Corner.Cell(2, 1),
                                 CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                1-+-2-+-+
+                | | |\| |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "negative case",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(2, 0, 1),
+                                        new Corner(2, 2, 2)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(2, 2),
+                                        CellValue.backward
+                                )
+                        ),
+                        15,
+                        Map.of(
+                                new Corner.Cell(2, 2),
+                                CellValue.backward
                         )
                 )
         );
