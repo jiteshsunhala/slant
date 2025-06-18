@@ -4,6 +4,7 @@ import com.sunhaj.slant.config.SlantTestConfiguration;
 import com.sunhaj.slant.model.Board;
 import com.sunhaj.slant.model.CellValue;
 import com.sunhaj.slant.model.Corner;
+import com.sunhaj.slant.steps.pairs.onePair.DiagonalOnesStep;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

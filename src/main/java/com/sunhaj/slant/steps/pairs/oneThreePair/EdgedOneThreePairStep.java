@@ -1,10 +1,10 @@
 package com.sunhaj.slant.steps.pairs.oneThreePair;
 
-import com.sunhaj.slant.model.Board;
 import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.pairs.PairCondition;
 import com.sunhaj.slant.steps.pairs.PairStep;
 import com.sunhaj.slant.util.AlwaysTrue;
+import com.sunhaj.slant.util.EdgedCorner;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class EdgedOneThreePairStep extends PairStep {
                         .pairDirection(Corner.Direction.right)
                         .skipValues(List.of(2))
                         .startCornerValue(1)
-                        .startCornerCondition(Board::isEdgedCorner)
+                        .startCornerCondition(new EdgedCorner())
                         .startCellConditions(List.of())
                         .endCornerValue(3)
                         .endCornerCondition(new AlwaysTrue<>())
@@ -40,7 +40,7 @@ public class EdgedOneThreePairStep extends PairStep {
                         .pairDirection(Corner.Direction.bottom)
                         .skipValues(List.of(2))
                         .startCornerValue(1)
-                        .startCornerCondition(Board::isEdgedCorner)
+                        .startCornerCondition(new EdgedCorner())
                         .startCellConditions(List.of())
                         .endCornerValue(3)
                         .endCornerCondition(new AlwaysTrue<>())
@@ -61,7 +61,7 @@ public class EdgedOneThreePairStep extends PairStep {
                         .pairDirection(Corner.Direction.left)
                         .skipValues(List.of(2))
                         .startCornerValue(1)
-                        .startCornerCondition(Board::isEdgedCorner)
+                        .startCornerCondition(new EdgedCorner())
                         .startCellConditions(List.of())
                         .endCornerValue(3)
                         .endCornerCondition(new AlwaysTrue<>())
@@ -82,7 +82,7 @@ public class EdgedOneThreePairStep extends PairStep {
                         .pairDirection(Corner.Direction.top)
                         .skipValues(List.of(2))
                         .startCornerValue(1)
-                        .startCornerCondition(Board::isEdgedCorner)
+                        .startCornerCondition(new EdgedCorner())
                         .startCellConditions(List.of())
                         .endCornerValue(3)
                         .endCornerCondition(new AlwaysTrue<>())

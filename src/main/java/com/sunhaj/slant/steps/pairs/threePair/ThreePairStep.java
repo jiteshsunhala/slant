@@ -3,6 +3,7 @@ package com.sunhaj.slant.steps.pairs.threePair;
 import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.pairs.PairCondition;
 import com.sunhaj.slant.steps.pairs.PairStep;
+import com.sunhaj.slant.util.AlwaysTrue;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ThreePairStep extends PairStep {
                         .pairDirection(Corner.Direction.bottom)
                         .skipValues(List.of(2))
                         .startCornerValue(3)
-                        .startCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .startCornerCondition(new AlwaysTrue<>())
                         .startCellConditions(List.of(
                                 new PairCondition.CellCondition(
                                         Corner::getTopLeft,
@@ -31,7 +32,7 @@ public class ThreePairStep extends PairStep {
                                 )
                         ))
                         .endCornerValue(3)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .endCornerCondition(new AlwaysTrue<>())
                         .endCellConditions(List.of(
                                 new PairCondition.CellCondition(
                                         Corner::getBottomLeft,
@@ -49,7 +50,7 @@ public class ThreePairStep extends PairStep {
                         .pairDirection(Corner.Direction.right)
                         .skipValues(List.of(2))
                         .startCornerValue(3)
-                        .startCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .startCornerCondition(new AlwaysTrue<>())
                         .startCellConditions(List.of(
                                 new PairCondition.CellCondition(
                                         Corner::getTopLeft,
@@ -63,7 +64,7 @@ public class ThreePairStep extends PairStep {
                                 )
                         ))
                         .endCornerValue(3)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .endCornerCondition(new AlwaysTrue<>())
                         .endCellConditions(List.of(
                                 new PairCondition.CellCondition(
                                         Corner::getTopRight,

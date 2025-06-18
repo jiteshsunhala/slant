@@ -4,6 +4,7 @@ import com.sunhaj.slant.model.Corner;
 import com.sunhaj.slant.steps.pairs.PairCondition;
 import com.sunhaj.slant.steps.pairs.PairStep;
 import com.sunhaj.slant.util.AlwaysTrue;
+import com.sunhaj.slant.util.EdgedCorner;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class NonEdgedThreeOnePairStep extends PairStep {
                                 )
                         ))
                         .endCornerValue(1)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .endCornerCondition(new EdgedCorner().negate())
                         .endCellConditions(List.of(
                                 new PairCondition.CellCondition(
                                         Corner::getTopRight,
@@ -64,7 +65,7 @@ public class NonEdgedThreeOnePairStep extends PairStep {
                                 )
                         ))
                         .endCornerValue(1)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .endCornerCondition(new EdgedCorner().negate())
                         .endCellConditions(List.of(
                                 new PairCondition.CellCondition(
                                         Corner::getBottomLeft,
