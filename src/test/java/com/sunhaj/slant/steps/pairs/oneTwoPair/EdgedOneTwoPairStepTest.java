@@ -34,7 +34,9 @@ public class EdgedOneTwoPairStepTest {
                 +-+-+-+-+
                  */
 
-                Arguments.of(getBoard(4, 4,
+                Arguments.of(
+                        "one two on top edge",
+                        getBoard(4, 4,
                         List.of(
                                 new Corner(0, 1, 1),
                                 new Corner(1, 1, 2)
@@ -58,17 +60,181 @@ public class EdgedOneTwoPairStepTest {
                 +-2-+-+-+
                 | | | | |
                 +-2-+-+-+
-                | |\| | |
+                |/| | | |
                 +-+-+-+-+
                 | | | | |
                 +-+-+-+-+
                  */
 
-                Arguments.of(getBoard(4, 4,
+                Arguments.of(
+                        "one two two on top edge",
+                        getBoard(4, 4,
                                 List.of(
                                         new Corner(0, 1, 1),
                                         new Corner(1, 1, 2),
                                         new Corner(2, 1, 2)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(2, 0),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(2, 0),
+                                CellValue.forward,
+                                new Corner.Cell(2, 1),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | |/| | |
+                1-2-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "one two on left edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(1, 0, 1),
+                                        new Corner(1, 1, 2)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(0, 1),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(0, 1),
+                                CellValue.forward,
+                                new Corner.Cell(1, 1),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                1-2-2-+-+
+                | | |\| |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "one two two on left edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(1, 0, 1),
+                                        new Corner(1, 1, 2),
+                                        new Corner(1, 2, 2)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(1, 2),
+                                        CellValue.backward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(0, 2),
+                                CellValue.backward,
+                                new Corner.Cell(1, 2),
+                                CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-2-1
+                | | |/| |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "one two on right edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(1, 3, 2),
+                                        new Corner(1, 4, 1)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(1, 2),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(0, 2),
+                                CellValue.forward,
+                                new Corner.Cell(1, 2),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | |\| | |
+                +-+-2-2-1
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "one two two on right edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(1, 2, 2),
+                                        new Corner(1, 3, 2),
+                                        new Corner(1, 4, 1)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(0, 1),
+                                        CellValue.backward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(0, 1),
+                                CellValue.backward,
+                                new Corner.Cell(1, 1),
+                                CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | |\| | |
+                +-+-2-+-+
+                | | | | |
+                +-+-1-+-+
+                 */
+
+                Arguments.of(
+                        "one two on bottom edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(3, 2, 2),
+                                        new Corner(4, 2, 1)
                                 ),
                                 Map.of(
                                         new Corner.Cell(2, 1),
@@ -77,10 +243,175 @@ public class EdgedOneTwoPairStepTest {
                         ),
                         14,
                         Map.of(
-                                new Corner.Cell(2, 0),
+                                new Corner.Cell(2, 1),
+                                CellValue.backward,
+                                new Corner.Cell(2, 2),
+                                CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | |/| |
+                +-+-2-+-+
+                | | | | |
+                +-+-2-+-+
+                | | | | |
+                +-+-1-+-+
+                 */
+
+                Arguments.of(
+                        "one two two on bottom edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(2, 2, 2),
+                                        new Corner(3, 2, 2),
+                                        new Corner(4, 2, 1)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(1, 2),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(1, 1),
+                                CellValue.forward,
+                                new Corner.Cell(1, 2),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-2-+-+
+                | | |\| |
+                +-+-2-+-+
+                | | | | |
+                +-+-1-+-+
+                 */
+
+                Arguments.of(
+                        "first two with edge on bottom edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(2, 2, 2),
+                                        new Corner(3, 2, 2),
+                                        new Corner(4, 2, 1)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(2, 2),
+                                        CellValue.backward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(2, 2),
                                 CellValue.backward,
                                 new Corner.Cell(2, 1),
                                 CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | |/| |
+                +-+-2-2-1
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "first two with edge on right edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(2, 2, 2),
+                                        new Corner(2, 3, 2),
+                                        new Corner(2, 4, 1)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(1, 2),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(1, 2),
+                                CellValue.forward,
+                                new Corner.Cell(2, 2),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-1-+-+
+                | | | | |
+                +-+-2-+-+
+                | | |/| |
+                +-+-2-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "first two with edge on top edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(0, 2, 1),
+                                        new Corner(1, 2, 2),
+                                        new Corner(2, 2, 2)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(1, 2),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(1, 1),
+                                CellValue.forward,
+                                new Corner.Cell(1, 2),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                1-2-2-+-+
+                | |/| | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+
+                Arguments.of(
+                        "first two with edge on left edge",
+                        getBoard(4, 4,
+                                List.of(
+                                        new Corner(2, 0, 1),
+                                        new Corner(2, 1, 2),
+                                        new Corner(2, 2, 2)
+                                ),
+                                Map.of(
+                                        new Corner.Cell(2, 1),
+                                        CellValue.forward
+                                )
+                        ),
+                        14,
+                        Map.of(
+                                new Corner.Cell(1, 1),
+                                CellValue.forward,
+                                new Corner.Cell(2, 1),
+                                CellValue.forward
                         )
                 )
         );
@@ -88,7 +419,7 @@ public class EdgedOneTwoPairStepTest {
 
     @ParameterizedTest
     @MethodSource("differentBoards")
-    public void testAllBoards(Board board, int emptyCells, Map<Corner.Cell, CellValue> cellValueMap) {
+    public void testAllBoards(String id, Board board, int emptyCells, Map<Corner.Cell, CellValue> cellValueMap) {
 
         edgedOneTwoPairStep.execute(board);
 
