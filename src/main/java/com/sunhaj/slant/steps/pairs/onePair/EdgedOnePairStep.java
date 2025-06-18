@@ -7,7 +7,6 @@ import com.sunhaj.slant.steps.pairs.PairStep;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EdgedOnePairStep extends PairStep {
@@ -20,62 +19,76 @@ public class EdgedOnePairStep extends PairStep {
                         .skipValues(List.of(2))
                         .startCornerValue(1)
                         .startCornerCondition(Board::isEdgedCorner)
-                        .startCellConditions(Map.of())
-                        .startCellValueFunction(Corner.Cell::getAway)
+                        .startCellConditions(List.of())
                         .endCornerValue(1)
                         .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .endCellConditions(Map.of(
-                                Corner::getTopRight, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
-                                Corner::getBottomRight, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell))
-                        ))
-                        .endCellValueFunction(Corner.Cell::getAway)
+                        .endCellConditions(List.of(
+                                new PairCondition.CellCondition(
+                                        Corner::getTopRight,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway),
+                                new PairCondition.CellCondition(
+                                        Corner::getBottomRight,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway
+                                )))
                         .build(),
                 PairCondition.builder()
                         .pairDirection(Corner.Direction.bottom)
                         .skipValues(List.of(2))
                         .startCornerValue(1)
                         .startCornerCondition(Board::isEdgedCorner)
-                        .startCellConditions(Map.of())
-                        .startCellValueFunction(Corner.Cell::getAway)
+                        .startCellConditions(List.of())
                         .endCornerValue(1)
                         .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .endCellConditions(Map.of(
-                                Corner::getBottomLeft, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
-                                Corner::getBottomRight, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell))
-                        ))
-                        .endCellValueFunction(Corner.Cell::getAway)
+                        .endCellConditions(List.of(
+                                new PairCondition.CellCondition(
+                                        Corner::getBottomLeft,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway),
+                                new PairCondition.CellCondition(
+                                        Corner::getBottomRight,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway
+                                )))
                         .build(),
                 PairCondition.builder()
                         .pairDirection(Corner.Direction.left)
                         .skipValues(List.of(2))
                         .startCornerValue(1)
                         .startCornerCondition(Board::isEdgedCorner)
-                        .startCellConditions(Map.of())
-                        .startCellValueFunction(Corner.Cell::getAway)
+                        .startCellConditions(List.of())
                         .endCornerValue(1)
                         .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .endCellConditions(Map.of(
-                                Corner::getTopLeft, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
-                                Corner::getBottomLeft, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell))
-                        ))
-                        .endCellValueFunction(Corner.Cell::getAway)
-                        .skipValues(List.of(2))
-                        .pairDirection(Corner.Direction.left)
+                        .endCellConditions(List.of(
+                                new PairCondition.CellCondition(
+                                        Corner::getTopLeft,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway),
+                                new PairCondition.CellCondition(
+                                        Corner::getBottomLeft,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway
+                                )))
                         .build(),
                 PairCondition.builder()
-                        .startCornerValue(1)
-                        .startCornerCondition(Board::isEdgedCorner)
-                        .startCellConditions(Map.of())
-                        .startCellValueFunction(Corner.Cell::getAway)
-                        .endCornerValue(1)
-                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
-                        .endCellConditions(Map.of(
-                                Corner::getTopLeft, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
-                                Corner::getTopRight, (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell))
-                        ))
-                        .endCellValueFunction(Corner.Cell::getAway)
-                        .skipValues(List.of(2))
                         .pairDirection(Corner.Direction.top)
+                        .skipValues(List.of(2))
+                        .startCornerValue(1)
+                        .startCornerCondition(Board::isEdgedCorner)
+                        .startCellConditions(List.of())
+                        .endCornerValue(1)
+                        .endCornerCondition((board, corner) -> !board.isEdgedCorner(corner))
+                        .endCellConditions(List.of(
+                                new PairCondition.CellCondition(
+                                        Corner::getTopLeft,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway),
+                                new PairCondition.CellCondition(
+                                        Corner::getTopRight,
+                                        (board, cell) -> !cell.getIncoming().equals(board.getCellValue(cell)),
+                                        Corner.Cell::getAway
+                                )))
                         .build()
         );
     }

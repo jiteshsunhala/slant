@@ -6,6 +6,7 @@ import com.sunhaj.slant.model.Corner;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
@@ -21,12 +22,39 @@ public class PairCondition {
 
     private int startCornerValue;
     private BiPredicate<Board, Corner> startCornerCondition;
-    private Map<Function<Corner, Corner.Cell>, BiPredicate<Board, Corner.Cell>> startCellConditions;
+    private List<CellCondition> startCellConditions;
 
     private int endCornerValue;
     private BiPredicate<Board, Corner> endCornerCondition;
-    private Map<Function<Corner, Corner.Cell>, BiPredicate<Board, Corner.Cell>> endCellConditions;
+    private List<CellCondition> endCellConditions;
 
-    private Function<Corner.Cell, CellValue> startCellValueFunction;
-    private Function<Corner.Cell, CellValue> endCellValueFunction;
+    @AllArgsConstructor
+    @Getter
+    public static class CellCondition {
+        private Function<Corner, Corner.Cell> cornerToCellFunction;
+        private BiPredicate<Board, Corner.Cell> cellCondition;
+        private Function<Corner.Cell, CellValue> cellToValueFunction;
+    }
+
+    public boolean isValidCorner(Board board, Corner corner, BiPredicate<Board, Corner> cornerCondition, int cornerValue) {
+        if(corner.getValue() == null) {
+            return false;
+        }
+        if(corner.getValue() != cornerValue) {
+            return false;
+        }
+        if(!cornerCondition.test(board, corner)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean areValidCells(Board board, Corner corner, List<CellCondition> cellConditions) {
+        return cellConditions.stream()
+                .allMatch(cellCondition -> {
+                    Corner.Cell cell = cellCondition.getCornerToCellFunction().apply(corner);
+                    return cellCondition.getCellCondition().test(board, cell);
+                });
+    }
 }

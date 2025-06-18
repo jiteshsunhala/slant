@@ -31,59 +31,32 @@ public abstract class PairStep extends Step {
 
     private void trySolving(Board board, Corner corner, List<PairCondition> pairConditions) {
         for(PairCondition pairCondition: pairConditions) {
-            if(!pairCondition.getStartCornerCondition().test(board, corner) ||
-                    corner.getValue() == null ||
-                    corner.getValue() != pairCondition.getStartCornerValue()) {
+
+            if(!pairCondition.isValidCorner(board, corner, pairCondition.getStartCornerCondition(), pairCondition.getStartCornerValue())) {
                 continue;
             }
 
-            Optional<Corner> nextCorner = board.getNextCorner(corner,
-                    pairCondition.getEndCornerValue(),
-                    pairCondition.getPairDirection(),
-                    pairCondition.getEndCornerCondition(),
-                    pairCondition.getSkipValues()
-            );
+            if(!pairCondition.areValidCells(board, corner, pairCondition.getStartCellConditions())) {
+                continue;
+            }
+
+            Optional<Corner> nextCorner = board.getNextCorner(corner, pairCondition);
 
             nextCorner.ifPresent(endCorner -> solve(board, corner, endCorner, pairCondition));
         }
     }
 
     private void solve(Board board, Corner startCorner, Corner endCorner, PairCondition pairCondition) {
-
-        if(!areValidCells(board, startCorner, pairCondition.getStartCellConditions())) {
-            return;
-        }
-
-        if(!areValidCells(board, endCorner, pairCondition.getEndCellConditions())) {
-            return;
-        }
-
-        List<Corner.Cell> startCells = pairCondition
-                .getStartCellConditions()
-                .keySet()
-                .stream()
-                .map(fn -> fn.apply(startCorner))
-                .toList();
-
-        List<Corner.Cell> endCells = pairCondition
-                .getEndCellConditions()
-                .keySet()
-                .stream()
-                .map(fn -> fn.apply(endCorner))
-                .toList();
-
-        setCells(board, startCells, pairCondition.getStartCellValueFunction());
-        setCells(board, endCells, pairCondition.getEndCellValueFunction());
+        setCells(board, startCorner, pairCondition.getStartCellConditions());
+        setCells(board, endCorner, pairCondition.getEndCellConditions());
     }
 
-    private void setCells(Board board, List<Corner.Cell> cells, Function<Corner.Cell, CellValue> cellValueFn) {
-        cells.forEach(cell -> board.setCell(cell.getX(), cell.getY(), cellValueFn.apply(cell)));
-    }
+    private void setCells(Board board, Corner corner, List<PairCondition.CellCondition> cellConditions) {
+        cellConditions.forEach(cellCondition -> {
+            Corner.Cell cell = cellCondition.getCornerToCellFunction().apply(corner);
+            CellValue cellValue = cellCondition.getCellToValueFunction().apply(cell);
 
-    private boolean areValidCells(Board board, Corner corner, Map<Function<Corner, Corner.Cell>, BiPredicate<Board, Corner.Cell>> cellConditions) {
-        return cellConditions
-                .entrySet()
-                .stream()
-                .allMatch(entry -> entry.getValue().test(board, entry.getKey().apply(corner)));
+            board.setCell(cell.getX(), cell.getY(), cellValue);
+        });
     }
 }

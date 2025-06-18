@@ -1,5 +1,6 @@
 package com.sunhaj.slant.model;
 
+import com.sunhaj.slant.steps.pairs.PairCondition;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -66,13 +67,10 @@ public class Board {
         System.out.println();
     }
 
-    public Optional<Corner> getNextCorner(Corner corner,
-                                          int value,
-                                          Corner.Direction cornerDirection,
-                                          BiPredicate<Board, Corner> cornerCondition,
-                                          List<Integer> skipValues) {
-        int incX = cornerDirection.getX();
-        int incY = cornerDirection.getY();
+    public Optional<Corner> getNextCorner(Corner corner, PairCondition pairCondition) {
+
+        int incX = pairCondition.getPairDirection().getX();
+        int incY = pairCondition.getPairDirection().getY();
 
         for(int i=corner.getX() + incX, j=corner.getY() + incY;isValidCorner(i, j); i += incX, j += incY) {
             Corner nextCorner = corners.get(i).get(j);
@@ -82,11 +80,12 @@ public class Board {
                 return Optional.empty();
             }
 
-            if(value == cornerValue && cornerCondition.test(this, nextCorner)) {
+            if(pairCondition.isValidCorner(this, nextCorner, pairCondition.getEndCornerCondition(), pairCondition.getEndCornerValue()) &&
+            pairCondition.areValidCells(this, nextCorner, pairCondition.getEndCellConditions())) {
                 return Optional.of(corners.get(i).get(j));
             }
 
-            if(!skipValues.contains(cornerValue)) {
+            if(!pairCondition.getSkipValues().contains(cornerValue)) {
                 return Optional.empty();
             }
         }
