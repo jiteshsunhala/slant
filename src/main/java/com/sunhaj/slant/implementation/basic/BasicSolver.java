@@ -11,6 +11,7 @@ import com.sunhaj.slant.steps.pairs.oneThreePair.NonEdgedOneThreePairStep;
 import com.sunhaj.slant.steps.pairs.oneThreePair.NonEdgedThreeOnePairStep;
 import com.sunhaj.slant.steps.pairs.oneTwoPair.EdgedOneTwoPairStep;
 import com.sunhaj.slant.steps.pairs.threePair.ThreePairStep;
+import com.sunhaj.slant.steps.pairs.twoPair.SameRowTwoPairStep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class BasicSolver implements SlantSolver {
     private final NonEdgedThreeOnePairStep nonEdgedThreeOnePairStep;
     private final FillRemainingStep fillRemainingStep;
     private final EdgedOneTwoPairStep edgedOneTwoPairStep;
+    private final SameRowTwoPairStep sameRowTwoPairStep;
 
     @Autowired
     public BasicSolver(NonEdgedOnePairStep nonEdgedOnePairStep,
@@ -43,7 +45,8 @@ public class BasicSolver implements SlantSolver {
                        NonEdgedOneThreePairStep nonEdgedOneThreePairStep,
                        NonEdgedThreeOnePairStep nonEdgedThreeOnePairStep,
                        FillRemainingStep fillRemainingStep,
-                       EdgedOneTwoPairStep edgedOneTwoPairStep) {
+                       EdgedOneTwoPairStep edgedOneTwoPairStep,
+                       SameRowTwoPairStep sameRowTwoPairStep) {
 
         this.nonEdgedOnePairStep = nonEdgedOnePairStep;
         this.zeroCornerStep = zeroCornerStep;
@@ -56,6 +59,7 @@ public class BasicSolver implements SlantSolver {
         this.nonEdgedThreeOnePairStep = nonEdgedThreeOnePairStep;
         this.fillRemainingStep = fillRemainingStep;
         this.edgedOneTwoPairStep = edgedOneTwoPairStep;
+        this.sameRowTwoPairStep = sameRowTwoPairStep;
     }
 
     @Override
@@ -71,7 +75,8 @@ public class BasicSolver implements SlantSolver {
                 nonEdgedOneThreePairStep,
                 nonEdgedThreeOnePairStep,
                 fillRemainingStep,
-                edgedOneTwoPairStep
+                edgedOneTwoPairStep,
+                sameRowTwoPairStep
         ));
 
         Map<Board, Integer> counts = new HashMap<>();

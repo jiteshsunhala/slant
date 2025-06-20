@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest(classes = SlantTestConfiguration.class)
-public class NonEdgedOnePairStepTests {
+public class NonEdgedOnePairStepTest {
 
     @Autowired
     private NonEdgedOnePairStep nonEdgedOnePairStep;

@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest(classes = SlantTestConfiguration.class)
-public class ThreePairStepTests {
+public class ThreePairStepTest {
 
     @Autowired
     private ThreePairStep threePairStep;
