@@ -69,6 +69,41 @@ public class DiagonalTwoPairStepTest {
                 ),
                 /*
                 +-+-+-+-+
+                | | | |/|
+                +-2-2-2-+
+                |/| | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+                Arguments.of(
+                        "direction-right, skip twos, bottom-left -> top-right",
+                        getBoard(4, 4, List.of(
+                                new Corner(1, 1, 2),
+                                new Corner(1, 2, 2),
+                                new Corner(1, 3, 2)
+                        ), Map.of(
+                                new Corner.Cell(0, 3),
+                                CellValue.forward,
+                                new Corner.Cell(1, 0),
+                                CellValue.forward
+                        )),
+                        12,
+                        Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.forward,
+                                new Corner.Cell(0, 3),
+                                CellValue.forward,
+                                new Corner.Cell(1, 0),
+                                CellValue.forward,
+                                new Corner.Cell(1, 3),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
                 |\| | | |
                 +-2-2-+-+
                 | | |\| |
@@ -99,6 +134,179 @@ public class DiagonalTwoPairStepTest {
                                 CellValue.backward,
                                 new Corner.Cell(1, 2),
                                 CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                |\| | | |
+                +-2-2-2-+
+                | | | |\|
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+                Arguments.of(
+                        "direction-right, skip twos, top-left -> bottom-right",
+                        getBoard(4, 4, List.of(
+                                new Corner(1, 1, 2),
+                                new Corner(1, 2, 2),
+                                new Corner(1, 3, 2)
+                        ), Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.backward,
+                                new Corner.Cell(1, 3),
+                                CellValue.backward
+                        )),
+                        12,
+                        Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.backward,
+                                new Corner.Cell(0, 3),
+                                CellValue.backward,
+                                new Corner.Cell(1, 0),
+                                CellValue.backward,
+                                new Corner.Cell(1, 3),
+                                CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                |\| | | |
+                +-2-+-+-+
+                | | | | |
+                +-2-+-+-+
+                | |\| | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+                Arguments.of(
+                        "direction-bottom, top-left -> bottom-right",
+                        getBoard(4, 4, List.of(
+                                new Corner(1, 1, 2),
+                                new Corner(2, 1, 2)
+                        ), Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.backward,
+                                new Corner.Cell(2, 1),
+                                CellValue.backward
+                        )),
+                        12,
+                        Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.backward,
+                                new Corner.Cell(0, 1),
+                                CellValue.backward,
+                                new Corner.Cell(2, 0),
+                                CellValue.backward,
+                                new Corner.Cell(2, 1),
+                                CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                |\| | | |
+                +-2-+-+-+
+                | | | | |
+                +-2-+-+-+
+                | | | | |
+                +-2-+-+-+
+                | |\| | |
+                +-+-+-+-+
+                 */
+                Arguments.of(
+                        "direction-bottom, skip twos, top-left -> bottom-right",
+                        getBoard(4, 4, List.of(
+                                new Corner(1, 1, 2),
+                                new Corner(2, 1, 2),
+                                new Corner(3, 1, 2)
+                        ), Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.backward,
+                                new Corner.Cell(3, 1),
+                                CellValue.backward
+                        )),
+                        12,
+                        Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.backward,
+                                new Corner.Cell(0, 1),
+                                CellValue.backward,
+                                new Corner.Cell(3, 0),
+                                CellValue.backward,
+                                new Corner.Cell(3, 1),
+                                CellValue.backward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | |/| | |
+                +-2-+-+-+
+                | | | | |
+                +-2-+-+-+
+                |/| | | |
+                +-+-+-+-+
+                | | | | |
+                +-+-+-+-+
+                 */
+                Arguments.of(
+                        "direction-bottom, top-right -> bottom-left",
+                        getBoard(4, 4, List.of(
+                                new Corner(1, 1, 2),
+                                new Corner(2, 1, 2)
+                        ), Map.of(
+                                new Corner.Cell(0, 1),
+                                CellValue.forward,
+                                new Corner.Cell(2, 0),
+                                CellValue.forward
+                        )),
+                        12,
+                        Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.forward,
+                                new Corner.Cell(0, 1),
+                                CellValue.forward,
+                                new Corner.Cell(2, 0),
+                                CellValue.forward,
+                                new Corner.Cell(2, 1),
+                                CellValue.forward
+                        )
+                ),
+                /*
+                +-+-+-+-+
+                | |/| | |
+                +-2-+-+-+
+                | | | | |
+                +-2-+-+-+
+                | | | | |
+                +-2-+-+-+
+                |/| | | |
+                +-+-+-+-+
+                 */
+                Arguments.of(
+                        "direction-bottom, skip twos, top-right -> bottom-left",
+                        getBoard(4, 4, List.of(
+                                new Corner(1, 1, 2),
+                                new Corner(2, 1, 2),
+                                new Corner(3, 1, 2)
+                        ), Map.of(
+                                new Corner.Cell(0, 1),
+                                CellValue.forward,
+                                new Corner.Cell(3, 0),
+                                CellValue.forward
+                        )),
+                        12,
+                        Map.of(
+                                new Corner.Cell(0, 0),
+                                CellValue.forward,
+                                new Corner.Cell(0, 1),
+                                CellValue.forward,
+                                new Corner.Cell(3, 0),
+                                CellValue.forward,
+                                new Corner.Cell(3, 1),
+                                CellValue.forward
                         )
                 )
         );
